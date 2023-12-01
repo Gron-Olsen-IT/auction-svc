@@ -15,9 +15,7 @@ public class AuctionRepoMongo : IAuctionRepo
     {
         string connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING") ?? "mongodb://admin:1234@localhost:27017/";
         var mongoDatabase = new MongoClient(connectionString).GetDatabase("auction_db");
-
         _collection = mongoDatabase.GetCollection<Auction>("auctions");
-
     }
     public async Task<List<Auction>> Get()
     {
@@ -38,11 +36,10 @@ public class AuctionRepoMongo : IAuctionRepo
     }
     public async Task<Auction> Get(string id)
     {
-
         try
         {
             Auction returnAuction = await _collection.Find<Auction>(auction => auction.Id == id).FirstOrDefaultAsync();
-            if (returnAuction == null)
+            if (returnAuction == null)  
             {
                 throw new Exception("Auction not found");
             }
@@ -69,7 +66,6 @@ public class AuctionRepoMongo : IAuctionRepo
         catch (Exception e)
         {
             throw new Exception(e.Message);
-
         }
     }
 

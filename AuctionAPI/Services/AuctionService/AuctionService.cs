@@ -13,7 +13,7 @@ namespace AuctionAPI.Services;
 
 public class AuctionService : IAuctionService
 {
-    private readonly IInfraRepo _InfraRepo;
+    private readonly IInfraRepo _infraRepo;
     private readonly IAuctionRepo _auctionRepo;
     private readonly ILogger<AuctionService> _logger;
 
@@ -22,7 +22,7 @@ public class AuctionService : IAuctionService
     public AuctionService(IInfraRepo InfraRepo, IAuctionRepo productRepository, ILogger<AuctionService> logger)
     {
         _auctionRepo = productRepository;
-        _InfraRepo = InfraRepo;
+        _infraRepo = InfraRepo;
         _logger = logger;
     }
 
@@ -50,11 +50,27 @@ public class AuctionService : IAuctionService
         }
     }
 
-    public Task<List<Auction>> GetActiveAuctions()
+    public async Task<List<Auction>> GetActiveAuctions()
     {
         try
         {
-            return _auctionRepo.GetActiveAuctions();
+            List<Auction> activeAuctions = await _auctionRepo.GetActiveAuctions();
+            List<string> auctionIds = new();
+            foreach (Auction auction in activeAuctions)
+            {               
+                    auctionIds.Add(auction.Id);
+            }
+            List<Tuple<string, string>> auctionBidIds = await _infraRepo.GetMaxBid(auctionIds);
+            foreach (Auction auction in activeAuctions)
+            {
+                foreach (Tuple<string, string> auctionBidId in auctionBidIds)
+                {
+                    if (auction.Id == auctionBidId.Item1)
+                    {
+                        auction.BidId = auctionBidId.Item2;
+                    }
+                }
+            }
         }
         catch (Exception e)
         {
