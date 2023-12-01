@@ -1,4 +1,4 @@
-namespace AuctionAPI.tests;
+namespace AuctionAPI.Tests;
 
 public class Tests
 {
