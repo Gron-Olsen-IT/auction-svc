@@ -10,7 +10,7 @@ public interface IAuctionRepo
     public Task<List<Auction>> GetActiveAuctions();
     public Task<List<Auction>> GetAuctionsLast5Minutes();
     public Task<List<string>> GetProductIds(List<string> ids);
-    public Task<Auction> Post([FromBody] AuctionDTO productDTO);
+    public Task<Auction> Post([FromBody] Auction auction);
     public Task<Auction> Put([FromBody] Auction auction);
 
 }
