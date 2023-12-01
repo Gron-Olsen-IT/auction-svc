@@ -1,6 +1,12 @@
+using AuctionAPI.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.AddScoped<IAuctionService, AuctionService>();
+builder.Services.AddScoped<IAuctionRepo, AuctionRepoMongo>();
+builder.Services.AddScoped<IInfraRepo, InfraRepoRender>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
