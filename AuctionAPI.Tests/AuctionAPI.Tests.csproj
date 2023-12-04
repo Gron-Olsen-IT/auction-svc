@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AuctionAPI\auctionAPI.csproj" />
+    <ProjectReference Include="..\AuctionAPI\AuctionAPI.csproj" />
   </ItemGroup>
 
 </Project>
