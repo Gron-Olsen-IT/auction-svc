@@ -1,4 +1,3 @@
-
 using Moq;
 using AuctionAPI.Services;
 using AuctionAPI.Models;
