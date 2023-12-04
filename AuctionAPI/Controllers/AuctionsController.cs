@@ -88,6 +88,20 @@ public class AuctionsController : ControllerBase
         }
     }
 
+    [HttpPost("products")]
+    public async Task<IActionResult> GetProductIds(List<string> productIds)
+    {
+        try
+        {
+            return Ok(await _service.GetProductIds(productIds));
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error in GetAuctionsByProduct");
+            return BadRequest(e.Message);
+        }
+    }
+
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] AuctionDTO auctionDTO)
     {

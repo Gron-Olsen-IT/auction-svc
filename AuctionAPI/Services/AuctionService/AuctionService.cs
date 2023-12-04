@@ -103,7 +103,7 @@ public class AuctionService : IAuctionService
         }
     }
 
-    public Task<List<Tuple<string, string>>> GetProductIds(List<string> auctionids)
+    public Task<List<AuctionProductDTO>> GetProductIds(List<string> auctionids)
     {
         
         try {
