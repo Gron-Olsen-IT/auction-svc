@@ -54,24 +54,11 @@ public class AuctionService : IAuctionService
     {
         try
         {
-            List<Auction> activeAuctions = await _auctionRepo.GetActiveAuctions();
-            List<string> auctionIds = new();
-            foreach (Auction auction in activeAuctions)
-            {               
-                    auctionIds.Add(auction.Id);
-            }
-            List<Tuple<string, string>> auctionBidIds = await _infraRepo.GetMaxBid(auctionIds);
-            foreach (Auction auction in activeAuctions)
-            {
-                foreach (Tuple<string, string> auctionBidId in auctionBidIds)
-                {
-                    if (auction.Id == auctionBidId.Item1)
-                    {
-                        auction.BidId = auctionBidId.Item2;
-                    }
-                }
-            }
+            return await _auctionRepo.GetActiveAuctions();
+            
         }
+        
+        
         catch (Exception e)
         {
             throw new Exception(e.Message);
@@ -89,18 +76,7 @@ public class AuctionService : IAuctionService
             throw new Exception(e.Message);
         }
     }
-
-    public Task<List<string>> GetProductIds(List<string> ids)
-    {
-        try
-        {
-            return _auctionRepo.GetProductIds(ids);
-        }
-        catch (Exception e)
-        {
-            throw new Exception(e.Message);
-        }
-    }
+    
 
     public Task<Auction> Post([FromBody] AuctionDTO auctionDTO)
     {
@@ -120,6 +96,18 @@ public class AuctionService : IAuctionService
         try
         {
             return _auctionRepo.Put(auction);
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+    }
+
+    public Task<List<Tuple<string, string>>> GetProductIds(List<string> auctionids)
+    {
+        
+        try {
+            return _auctionRepo.GetProductIds(auctionids);
         }
         catch (Exception e)
         {
