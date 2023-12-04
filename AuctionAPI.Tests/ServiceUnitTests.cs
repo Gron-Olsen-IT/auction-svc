@@ -5,8 +5,10 @@ using AuctionAPI.Models;
 using Microsoft.Extensions.Logging;
 
 
+
 namespace AuctionAPI.Tests;
 
+//Test class for AuctionService
 public class ServiceUnitTests
 {
 
@@ -52,4 +54,4 @@ public class ServiceUnitTests
     {
         Assert.That(await _auctionService.Get("TestAuctionId1"), Is.EqualTo(auctions[0]));
     }
-}
+}  
