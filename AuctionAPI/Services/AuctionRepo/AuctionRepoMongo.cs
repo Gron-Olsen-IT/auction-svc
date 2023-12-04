@@ -87,13 +87,13 @@ public class AuctionRepoMongo : IAuctionRepo
         }
     }
 
-    public async Task<List<Tuple<string,string>>> GetProductIds(List<string> ids)
+    public async Task<List<AuctionProductDTO>> GetProductIds(List<string> ids)
     {
         try
         {
             List<Auction> auctions = await _collection.Find(auction => ids.Contains(auction.Id!)).ToListAsync();
             
-            List<Tuple<string,string>> returnIds = new();
+            List<AuctionProductDTO> returnIds = new();
             if (auctions.Count == 0)
                 
             {
@@ -102,9 +102,9 @@ public class AuctionRepoMongo : IAuctionRepo
 
             foreach (var auction in auctions)
             {
-                returnIds.Add(new Tuple<string, string>(auction.Id, auction.ProductId));
+                returnIds.Add(new AuctionProductDTO(auction.Id, auction.ProductId));
             }
-            return returnIds;
+            return returnIds!;
         }
         catch (Exception e)
         {
