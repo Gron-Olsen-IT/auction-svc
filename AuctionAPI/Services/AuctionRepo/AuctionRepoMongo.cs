@@ -87,14 +87,22 @@ public class AuctionRepoMongo : IAuctionRepo
         }
     }
 
-    public async Task<List<string>> GetProductIds(List<string> ids)
+    public async Task<List<Tuple<string,string>>> GetProductIds(List<string> ids)
     {
         try
         {
-            List<string> returnIds = await _collection.Find(auction => ids.Contains(auction.Id!)).Project(auction => auction.ProductId).ToListAsync();
-            if (returnIds.Count == 0)
+            List<Auction> auctions = await _collection.Find(auction => ids.Contains(auction.Id!)).ToListAsync();
+            
+            List<Tuple<string,string>> returnIds = new();
+            if (auctions.Count == 0)
+                
             {
                 throw new Exception("No auctions found");
+            }
+
+            foreach (var auction in auctions)
+            {
+                returnIds.Add(new Tuple<string, string>(auction.Id, auction.ProductId));
             }
             return returnIds;
         }
