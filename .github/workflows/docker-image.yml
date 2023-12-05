@@ -24,4 +24,4 @@ jobs:
     - name: Push Docker image to Docker Hub
       env:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
-      run: docker push ${DOCKER_USER}/product-svc:latest-main
+      run: docker push ${DOCKER_USER}/auction-svc:latest-main
