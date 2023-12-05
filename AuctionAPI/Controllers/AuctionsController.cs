@@ -129,5 +129,19 @@ public class AuctionsController : ControllerBase
             return StatusCode(404, e.Message);
         }
     }
+
+    [HttpPatch("{id}")]
+    public async Task<IActionResult> PatchMaxBid(string id, int maxBid)
+    {
+        try
+        {
+            return Ok(await _service.PatchMaxBid(id, maxBid));
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error in PatchMaxBid");
+            return StatusCode(404, e.Message);
+        }
+    }
     
 }

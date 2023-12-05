@@ -12,5 +12,7 @@ public interface IAuctionRepo
     public Task<List<AuctionProductDTO>> GetProductIds(List<string> ids);
     public Task<Auction> Post([FromBody] Auction auction);
     public Task<Auction> Put([FromBody] Auction auction);
+    public Task<Auction> PatchMaxBid(string id, int maxBid);
+    
 
 }

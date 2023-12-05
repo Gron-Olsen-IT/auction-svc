@@ -139,6 +139,26 @@ public class AuctionRepoMongo : IAuctionRepo
         }
     }
 
+    public async Task<Auction> PatchMaxBid(string id, int maxBid)
+    {
+        try
+        {
+            Auction auction = _collection.Find(a => a.Id == id).FirstOrDefault();
+            if (auction == null)
+            {
+                throw new Exception("Auction not found");
+            }
+            auction.CurrentMaxBid = maxBid;
+            Console.WriteLine("Current Max Bid patch value: " + auction.CurrentMaxBid);
+            await _collection.ReplaceOneAsync(a => a.Id == id, auction);
+            return auction;
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+    }
+
 
 
 
