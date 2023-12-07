@@ -87,6 +87,20 @@ public class AuctionsController : ControllerBase
             return BadRequest(e.Message);
         }
     }
+    
+    [HttpGet("minprice/{id}")]
+    public async Task<IActionResult> GetMinPrice(string id)
+    {
+        try
+        {
+            return Ok(await _service.GetMinPrice(id));
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error in GetMinPrice");
+            return BadRequest(e.Message);
+        }
+    }
 
     [HttpPost("products")]
     public async Task<IActionResult> GetProductIds(List<string> productIds)

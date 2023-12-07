@@ -111,6 +111,23 @@ public class AuctionRepoMongo : IAuctionRepo
             throw new Exception(e.Message);
         }
     }
+    
+    public async Task<int> GetMinPrice(string id)
+    {
+        try
+        {
+            Auction auction = await _collection.Find(a => a.Id == id).FirstOrDefaultAsync();
+            if (auction == null)
+            {
+                throw new Exception("Auction not found");
+            }
+            return auction.CurrentMaxBid;
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+    }
 
     public async Task<Auction> Post([FromBody] Auction auction)
     {

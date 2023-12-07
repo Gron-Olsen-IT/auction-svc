@@ -114,6 +114,18 @@ public class AuctionService : IAuctionService
             throw new Exception(e.Message);
         }
     }
+    
+    public Task<int> GetMinPrice(string id)
+    {
+        try
+        {
+            return _auctionRepo.GetMinPrice(id);
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+    }
 
     public Task<Auction> PatchMaxBid(string id, int maxBid)
     {
