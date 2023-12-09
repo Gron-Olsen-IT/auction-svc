@@ -103,11 +103,11 @@ public class AuctionsController : ControllerBase
     }
 
     [HttpPost("products")]
-    public async Task<IActionResult> GetProductIds(List<string> productIds)
+    public async Task<IActionResult> GetProductsByAuctionIds(List<string> auctionIds)
     {
         try
         {
-            return Ok(await _service.GetProductIds(productIds));
+            return Ok(await _service.GetProductIds(auctionIds));
         }
         catch (Exception e)
         {
