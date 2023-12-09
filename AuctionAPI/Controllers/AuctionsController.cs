@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using AuctionAPI.Services;
 using AuctionAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AuctionAPI.Controllers;
 
@@ -32,6 +33,7 @@ public class AuctionsController : ControllerBase
 
     }
 
+    [Authorize]
     [HttpGet]
     public async Task<IActionResult> Get()
     {
@@ -46,6 +48,7 @@ public class AuctionsController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(string id)
     {
@@ -60,6 +63,7 @@ public class AuctionsController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpGet("active")]
     public async Task<IActionResult> GetActiveAuctions()
     {
@@ -116,6 +120,7 @@ public class AuctionsController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] AuctionDTO auctionDTO)
     {
@@ -130,6 +135,7 @@ public class AuctionsController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpPut]
     public async Task<IActionResult> Put([FromBody] Auction auction)
     {
