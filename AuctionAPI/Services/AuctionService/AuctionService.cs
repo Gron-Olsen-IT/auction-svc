@@ -103,11 +103,11 @@ public class AuctionService : IAuctionService
         }
     }
 
-    public Task<List<AuctionProductDTO>> GetProductIds(List<string> auctionids)
+    public Task<List<AuctionProductDTO>> GetProductIds(List<string> auctionIds)
     {
         
         try {
-            return _auctionRepo.GetProductIds(auctionids);
+            return _auctionRepo.GetProductIds(auctionIds);
         }
         catch (Exception e)
         {

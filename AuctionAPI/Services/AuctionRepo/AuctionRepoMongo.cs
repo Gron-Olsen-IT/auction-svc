@@ -87,11 +87,11 @@ public class AuctionRepoMongo : IAuctionRepo
         }
     }
 
-    public async Task<List<AuctionProductDTO>> GetProductIds(List<string> ids)
+    public async Task<List<AuctionProductDTO>> GetProductIds(List<string> auctionIds)
     {
         try
         {
-            List<Auction> auctions = await _collection.Find(auction => ids.Contains(auction.Id!)).ToListAsync();
+            List<Auction> auctions = await _collection.Find(auction => auctionIds.Contains(auction.Id!)).ToListAsync();
             
             List<AuctionProductDTO> returnIds = new();
             if (auctions.Count == 0)
@@ -121,7 +121,7 @@ public class AuctionRepoMongo : IAuctionRepo
             {
                 throw new Exception("Auction not found");
             }
-            return auction.CurrentMaxBid;
+            return auction.MinPrice;
         }
         catch (Exception e)
         {
