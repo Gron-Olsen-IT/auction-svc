@@ -78,16 +78,16 @@ public class AuctionsController : ControllerBase
         }
     }
 
-    [HttpGet("last5minutes")]
-    public async Task<IActionResult> GetAuctionsLast5Minutes()
+    [HttpGet("expiredactive")]
+    public async Task<IActionResult> GetExpiredActiveAuctions()
     {
         try
         {
-            return Ok(await _service.GetAuctionsLast5Minutes());
+            return Ok(await _service.GetExpiredActiveAuctions());
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Error in GetAuctionsLast5Minutes");
+            _logger.LogError(e, "Error in GetExpiredActiveAuctions");
             return BadRequest(e.Message);
         }
     }
