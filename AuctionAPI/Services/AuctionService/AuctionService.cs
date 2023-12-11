@@ -65,11 +65,11 @@ public class AuctionService : IAuctionService
         }
     }
 
-    public Task<List<Auction>> GetAuctionsLast5Minutes()
+    public Task<List<Auction>> GetExpiredActiveAuctions()
     {
         try
         {
-            return _auctionRepo.GetAuctionsLast5Minutes();
+            return _auctionRepo.GetExpiredActiveAuctions();
         }
         catch (Exception e)
         {
