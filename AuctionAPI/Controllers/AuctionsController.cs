@@ -44,7 +44,7 @@ public class AuctionsController : ControllerBase
         catch (Exception e)
         {
             _logger.LogError(e, "Error in Get");
-            return BadRequest(e.Message);
+            return StatusCode (404, e.Message);
         }
     }
 
@@ -74,10 +74,11 @@ public class AuctionsController : ControllerBase
         catch (Exception e)
         {
             _logger.LogError(e, "Error in GetActiveAuctions");
-            return BadRequest(e.Message);
+            return StatusCode (404, e.Message);
         }
     }
 
+    [Authorize]
     [HttpGet("expiredactive")]
     public async Task<IActionResult> GetExpiredActiveAuctions()
     {
@@ -88,10 +89,11 @@ public class AuctionsController : ControllerBase
         catch (Exception e)
         {
             _logger.LogError(e, "Error in GetExpiredActiveAuctions");
-            return BadRequest(e.Message);
+            return StatusCode (404, e.Message);
         }
     }
-    
+
+    [Authorize]
     [HttpGet("minprice/{id}")]
     public async Task<IActionResult> GetMinPrice(string id)
     {
@@ -102,10 +104,11 @@ public class AuctionsController : ControllerBase
         catch (Exception e)
         {
             _logger.LogError(e, "Error in GetMinPrice");
-            return BadRequest(e.Message);
+            return StatusCode(404, e.Message);
         }
     }
 
+    [Authorize]
     [HttpPost("products")]
     public async Task<IActionResult> GetProductsByAuctionIds(List<string> auctionIds)
     {
@@ -116,7 +119,7 @@ public class AuctionsController : ControllerBase
         catch (Exception e)
         {
             _logger.LogError(e, "Error in GetAuctionsByProduct");
-            return BadRequest(e.Message);
+            return StatusCode(404, e.Message);
         }
     }
 
@@ -150,6 +153,7 @@ public class AuctionsController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpPatch("{id}")]
     public async Task<IActionResult> PatchMaxBid(string id, int maxBid)
     {
