@@ -5,8 +5,9 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace AuctionAPI.Controllers;
 
+[Authorize]
 [ApiController]
-[Route("[controller]")]
+[Route("auctions")]
 public class AuctionsController : ControllerBase
 {
 
@@ -33,7 +34,10 @@ public class AuctionsController : ControllerBase
 
     }
 
-    [Authorize]
+    /// <summary>
+    /// Get all auctions
+    /// </summary>
+    /// <returns></returns>
     [HttpGet]
     public async Task<IActionResult> Get()
     {
@@ -44,11 +48,15 @@ public class AuctionsController : ControllerBase
         catch (Exception e)
         {
             _logger.LogError(e, "Error in Get");
-            return BadRequest(e.Message);
+            return StatusCode (404, e.Message);
         }
     }
 
-    [Authorize]
+    /// <summary>
+    /// Get auction by id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(string id)
     {
@@ -63,7 +71,10 @@ public class AuctionsController : ControllerBase
         }
     }
 
-    [Authorize]
+    /// <summary>
+    /// Get all active auctions
+    /// </summary>
+    /// <returns></returns>
     [HttpGet("active")]
     public async Task<IActionResult> GetActiveAuctions()
     {
@@ -74,24 +85,33 @@ public class AuctionsController : ControllerBase
         catch (Exception e)
         {
             _logger.LogError(e, "Error in GetActiveAuctions");
-            return BadRequest(e.Message);
+            return StatusCode (404, e.Message);
         }
     }
 
-    [HttpGet("last5minutes")]
-    public async Task<IActionResult> GetAuctionsLast5Minutes()
+    /// <summary>
+    /// Get all expired auctions with status active
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("expiredactive")]
+    public async Task<IActionResult> GetExpiredActiveAuctions()
     {
         try
         {
-            return Ok(await _service.GetAuctionsLast5Minutes());
+            return Ok(await _service.GetExpiredActiveAuctions());
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Error in GetAuctionsLast5Minutes");
-            return BadRequest(e.Message);
+            _logger.LogError(e, "Error in GetExpiredActiveAuctions");
+            return StatusCode (404, e.Message);
         }
     }
-    
+
+    /// <summary>
+    /// Get the minimum price of an auction. 
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpGet("minprice/{id}")]
     public async Task<IActionResult> GetMinPrice(string id)
     {
@@ -102,10 +122,15 @@ public class AuctionsController : ControllerBase
         catch (Exception e)
         {
             _logger.LogError(e, "Error in GetMinPrice");
-            return BadRequest(e.Message);
+            return StatusCode(404, e.Message);
         }
     }
 
+    /// <summary>
+    /// Get a list of product ids from a list of auctionIds
+    /// </summary>
+    /// <param name="auctionIds"></param>
+    /// <returns></returns>
     [HttpPost("products")]
     public async Task<IActionResult> GetProductsByAuctionIds(List<string> auctionIds)
     {
@@ -116,11 +141,15 @@ public class AuctionsController : ControllerBase
         catch (Exception e)
         {
             _logger.LogError(e, "Error in GetAuctionsByProduct");
-            return BadRequest(e.Message);
+            return StatusCode(404, e.Message);
         }
     }
 
-    [Authorize]
+    /// <summary>
+    /// Post a new auction
+    /// </summary>
+    /// <param name="auctionDTO"></param>
+    /// <returns></returns>
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] AuctionDTO auctionDTO)
     {
@@ -135,7 +164,11 @@ public class AuctionsController : ControllerBase
         }
     }
 
-    [Authorize]
+    /// <summary>
+    /// Update an auction
+    /// </summary>
+    /// <param name="auction"></param>
+    /// <returns></returns>
     [HttpPut]
     public async Task<IActionResult> Put([FromBody] Auction auction)
     {
@@ -150,6 +183,12 @@ public class AuctionsController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Update the max bid of an auction
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="maxBid"></param>
+    /// <returns></returns>
     [HttpPatch("{id}")]
     public async Task<IActionResult> PatchMaxBid(string id, int maxBid)
     {
