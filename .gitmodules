@@ -1,4 +1,3 @@
 [submodule "sidecar"]
 	path = sidecar
-	url = https://github.com/Gron-Olsen-IT/sidecar.git
-	branch = main
+	url = https://github.com/Gron-Olsen-IT/sidecar
