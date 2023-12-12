@@ -89,7 +89,6 @@ public class AuctionsController : ControllerBase
         }
     }
 
-    
     /// <summary>
     /// Get all expired auctions with status active
     /// </summary>
