@@ -43,12 +43,12 @@ try
 
     var app = builder.Build();
 
-    // Configure the HTTP request pipeline.
-    if (app.Environment.IsDevelopment())
-    {
+
         app.UseSwagger();
-        app.UseSwaggerUI();
-    }
+        app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("./v1/swagger.json", "Your Microservice API V1");
+    });
 
     app.UseHttpsRedirection();
 
