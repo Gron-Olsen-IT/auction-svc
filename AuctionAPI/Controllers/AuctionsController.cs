@@ -5,8 +5,9 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace AuctionAPI.Controllers;
 
+[Authorize]
 [ApiController]
-[Route("[controller]")]
+[Route("auctions")]
 public class AuctionsController : ControllerBase
 {
 
@@ -33,7 +34,10 @@ public class AuctionsController : ControllerBase
 
     }
 
-    [Authorize]
+    /// <summary>
+    /// Get all auctions
+    /// </summary>
+    /// <returns></returns>
     [HttpGet]
     public async Task<IActionResult> Get()
     {
@@ -48,7 +52,11 @@ public class AuctionsController : ControllerBase
         }
     }
 
-    [Authorize]
+    /// <summary>
+    /// Get auction by id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(string id)
     {
@@ -63,7 +71,10 @@ public class AuctionsController : ControllerBase
         }
     }
 
-    [Authorize]
+    /// <summary>
+    /// Get all active auctions
+    /// </summary>
+    /// <returns></returns>
     [HttpGet("active")]
     public async Task<IActionResult> GetActiveAuctions()
     {
@@ -78,7 +89,11 @@ public class AuctionsController : ControllerBase
         }
     }
 
-    [Authorize]
+    
+    /// <summary>
+    /// Get all expired auctions with status active
+    /// </summary>
+    /// <returns></returns>
     [HttpGet("expiredactive")]
     public async Task<IActionResult> GetExpiredActiveAuctions()
     {
@@ -93,7 +108,11 @@ public class AuctionsController : ControllerBase
         }
     }
 
-    [Authorize]
+    /// <summary>
+    /// Get the minimum price of an auction. 
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpGet("minprice/{id}")]
     public async Task<IActionResult> GetMinPrice(string id)
     {
@@ -108,7 +127,11 @@ public class AuctionsController : ControllerBase
         }
     }
 
-    [Authorize]
+    /// <summary>
+    /// Get a list of product ids from a list of auctionIds
+    /// </summary>
+    /// <param name="auctionIds"></param>
+    /// <returns></returns>
     [HttpPost("products")]
     public async Task<IActionResult> GetProductsByAuctionIds(List<string> auctionIds)
     {
@@ -123,7 +146,11 @@ public class AuctionsController : ControllerBase
         }
     }
 
-    [Authorize]
+    /// <summary>
+    /// Post a new auction
+    /// </summary>
+    /// <param name="auctionDTO"></param>
+    /// <returns></returns>
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] AuctionDTO auctionDTO)
     {
@@ -138,7 +165,11 @@ public class AuctionsController : ControllerBase
         }
     }
 
-    [Authorize]
+    /// <summary>
+    /// Update an auction
+    /// </summary>
+    /// <param name="auction"></param>
+    /// <returns></returns>
     [HttpPut]
     public async Task<IActionResult> Put([FromBody] Auction auction)
     {
@@ -153,7 +184,12 @@ public class AuctionsController : ControllerBase
         }
     }
 
-    [Authorize]
+    /// <summary>
+    /// Update the max bid of an auction
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="maxBid"></param>
+    /// <returns></returns>
     [HttpPatch("{id}")]
     public async Task<IActionResult> PatchMaxBid(string id, int maxBid)
     {
