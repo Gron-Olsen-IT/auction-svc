@@ -129,7 +129,7 @@ public class AuctionRepoMongo : IAuctionRepo
         }
     }
 
-    public async Task<Auction> Post([FromBody] Auction auction)
+    public async Task<Auction> Post(Auction auction)
     {
 
         try
@@ -143,7 +143,7 @@ public class AuctionRepoMongo : IAuctionRepo
         }
     }
 
-    public async Task<Auction> Put([FromBody] Auction auction)
+    public async Task<Auction> Put(Auction auction)
     {
         try
         {

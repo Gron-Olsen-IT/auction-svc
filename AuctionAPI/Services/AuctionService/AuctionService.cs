@@ -78,11 +78,36 @@ public class AuctionService : IAuctionService
     }
     
 
-    public Task<Auction> Post([FromBody] AuctionDTO auctionDTO)
+    public Task<Auction> Post(AuctionDTO auctionDTO)
     {
         try
         {
             Auction auction = new(auctionDTO);
+            if (auction.EndDate < DateTime.Now.AddHours(24))
+            {
+                throw new Exception("Auction end date must be more than 24 hours");
+            }
+            if (auction.StartDate < DateTime.Now)
+            {
+                throw new Exception("Auction start date must be in the future");
+            }
+            if (auction.StartDate > auction.EndDate)
+            {
+                throw new Exception("Auction start date must be before end date");
+            }
+            if (auction.CurrentMaxBid != 0)
+            {
+                throw new Exception("Auction current max bid must be 0");
+            }
+            if (auction.Status != 1)
+            {
+                throw new Exception("Auction status must be 1");
+            }
+            if (auction.ProductId == null || auction.ProductId == "")
+            {
+                throw new Exception("Auction product id must be set");
+            }
+            
             return _auctionRepo.Post(auction);
         }
         catch (Exception e)
@@ -91,7 +116,7 @@ public class AuctionService : IAuctionService
         }
     }
 
-    public Task<Auction> Put([FromBody] Auction auction)
+    public Task<Auction> Put(Auction auction)
     {
         try
         {
