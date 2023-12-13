@@ -139,5 +139,17 @@ public class AuctionService : IAuctionService
         }
     }
 
+    public Task<Auction> PatchStatus(string id, int status)
+    {
+        try
+        {
+            return _auctionRepo.PatchStatus(id, status);
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+    }
+
 
 }
