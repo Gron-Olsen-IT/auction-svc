@@ -11,8 +11,8 @@ public interface IAuctionService
     public Task<List<Auction>> GetExpiredActiveAuctions();
     public Task<List<AuctionProductDTO>> GetProductIds(List<string> auctionIds);
     public Task<int> GetMinPrice(string id);
-    public Task<Auction> Post([FromBody] AuctionDTO productDTO);
-    public Task<Auction> Put([FromBody] Auction auction);
+    public Task<Auction> Post(AuctionDTO productDTO);
+    public Task<Auction> Put(Auction auction);
     public Task<Auction> PatchMaxBid(string id, int maxBid);
     public Task<Auction> PatchStatus(string id, int status);
 

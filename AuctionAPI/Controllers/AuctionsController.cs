@@ -203,11 +203,14 @@ public class AuctionsController : ControllerBase
         }
     }
 
-    [HttpPatch("status/{id}")]
-    public async Task<IActionResult> PatchStatus(string id, int status)
+    [HttpPatch("orderstatus/{id}")]
+    public async Task<IActionResult> PatchStatus(string id, [FromBody] int status)
     {
         try
         {
+            _logger.LogInformation("PatchStatus called");
+            _logger.LogInformation("id: " + id);
+            _logger.LogInformation("status: " + status);
             return Ok(await _service.PatchStatus(id, status));
         }
         catch (Exception e)
