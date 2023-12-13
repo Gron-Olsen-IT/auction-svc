@@ -14,5 +14,6 @@ public interface IAuctionService
     public Task<Auction> Post([FromBody] AuctionDTO productDTO);
     public Task<Auction> Put([FromBody] Auction auction);
     public Task<Auction> PatchMaxBid(string id, int maxBid);
+    public Task<Auction> PatchStatus(string id, int status);
 
 }

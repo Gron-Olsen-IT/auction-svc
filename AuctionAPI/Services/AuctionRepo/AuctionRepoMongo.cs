@@ -176,6 +176,24 @@ public class AuctionRepoMongo : IAuctionRepo
         }
     }
 
+    public async Task<Auction> PatchStatus(string id, int status){
+        try
+        {
+            Auction auction = _collection.Find(a => a.Id == id).FirstOrDefault();
+            if (auction == null)
+            {
+                throw new Exception("Auction not found");
+            }
+            auction.Status = status;
+            await _collection.ReplaceOneAsync(a => a.Id == id, auction);
+            return auction;
+        }
+        catch (Exception e)
+        {
+            throw new Exception("Could not patch auction status " + e.Message);
+        }
+    }
+
 
 
 

@@ -202,5 +202,19 @@ public class AuctionsController : ControllerBase
             return StatusCode(404, e.Message);
         }
     }
+
+    [HttpPatch("status/{id}")]
+    public async Task<IActionResult> PatchStatus(string id, int status)
+    {
+        try
+        {
+            return Ok(await _service.PatchStatus(id, status));
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error in PatchStatus");
+            return StatusCode(404, e.Message);
+        }
+    }
     
 }
