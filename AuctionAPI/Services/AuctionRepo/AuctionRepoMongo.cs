@@ -69,13 +69,14 @@ public class AuctionRepoMongo : IAuctionRepo
         }
     }
 
-    public async Task<List<Auction>> GetExpiredActiveAuctions()
+    public async Task<List<Auction>?> GetExpiredActiveAuctions()
     {
         try
         {
-            List<Auction> returnAuctions = await _collection.Find(auction => auction.EndDate < DateTime.Now && auction.Status == 1).ToListAsync();
+            List<Auction>? returnAuctions = await _collection.Find(auction => auction.EndDate < DateTime.Now && auction.Status == 1).ToListAsync();
             if (returnAuctions.Count == 0)
             {
+                return null;
                 throw new Exception("No expired auctions with status active found");
             }
             return returnAuctions;

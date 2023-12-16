@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -28,6 +29,20 @@ public record Auction{
     public string ProductId { get; set; }
     public string EmployeeId { get; set; }
     public int Status { get; set; }
+
+    [JsonConstructor]
+    public Auction(string id, DateTime startDate, DateTime endDate, int minPrice, int currentMaxBid, string productId, string employeeId, int status)
+    {
+        Id = id;
+        StartDate = startDate;
+        EndDate = endDate;
+        MinPrice = minPrice;
+        CurrentMaxBid = currentMaxBid;
+        ProductId = productId;
+        EmployeeId = employeeId;
+        Status = status;
+
+    }
 }
 
 public record AuctionDTO{
