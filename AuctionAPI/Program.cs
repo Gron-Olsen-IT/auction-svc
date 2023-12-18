@@ -16,7 +16,7 @@ try
     var builder = WebApplication.CreateBuilder(args);
 
     // Add services to the container.
-    builder.Services.AddSingleton<IVaultClient>(sidecar.vaultClient);
+    //builder.Services.AddSingleton<IVaultClient>(sidecar.vaultClient);
     builder.Services.AddScoped<IAuctionService, AuctionService>();
     builder.Services.AddScoped<IAuctionRepo, AuctionRepoMongo>();
     builder.Services.AddScoped<IInfraRepo, InfraRepoRender>();
