@@ -17,16 +17,23 @@ public class AuctionRepoMongo : IAuctionRepo
         var mongoDatabase = new MongoClient(connectionString).GetDatabase("auction_db");
         _collection = mongoDatabase.GetCollection<Auction>("auctions");
     }
-    public async Task<List<Auction>> Get()
+    public async Task<List<IAuction>> Get()
     {
         try
         {
-            List<Auction> returnAuctions = await _collection.Find(auction => true).ToListAsync();
+            //List<Auction> returnAuctions = await _collection.Find(auction => true).ToListAsync();
+            List<Auction> returnAuctions = new()
+            {
+                {new("ID1", DateTime.Now, DateTime.Now.AddDays(1), 100, 200, "Product1" , "Employee1", 1) },
+                {new("ID2", DateTime.Now, DateTime.Now.AddDays(2), 200, 400, "Product2" , "Employee2", 1) }
+            };
+
+
             if (returnAuctions.Count == 0)
             {
                 throw new Exception("No auctions found");
             }
-            return returnAuctions;
+            return returnAuctions.Where(x => x is IAuction).ToList<IAuction>();
         }
         catch (Exception e)
         {

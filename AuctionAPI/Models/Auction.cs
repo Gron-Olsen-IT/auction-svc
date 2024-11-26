@@ -5,7 +5,7 @@ using MongoDB.Bson.Serialization.Attributes;
 namespace AuctionAPI.Models;
 
 
-public record Auction{
+public record Auction : IAuction{
 
 
     public Auction(AuctionDTO auctionDTO)

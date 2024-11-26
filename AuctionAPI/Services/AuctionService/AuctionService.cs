@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.VisualBasic;
 using MongoDB.Driver;
 using AuctionAPI.Models;
+using Microsoft.FeatureManagement;
 
 namespace AuctionAPI.Services;
 
@@ -15,22 +16,46 @@ public class AuctionService : IAuctionService
 {
     private readonly IInfraRepo _infraRepo;
     private readonly IAuctionRepo _auctionRepo;
+    private readonly IAuctionRepo _auctionRepoExternal;
+    private readonly IFeatureManager _featureManager;
     private readonly ILogger<AuctionService> _logger;
 
 
 
-    public AuctionService(IInfraRepo InfraRepo, IAuctionRepo productRepository, ILogger<AuctionService> logger)
+    public AuctionService(IInfraRepo InfraRepo, ServiceResolver serviceAccessor, ILogger<AuctionService> logger, IFeatureManager featureManager)
     {
-        _auctionRepo = productRepository;
+        _auctionRepo = serviceAccessor("Mongo");
+        _auctionRepoExternal = serviceAccessor("External");
         _infraRepo = InfraRepo;
         _logger = logger;
+        _featureManager = featureManager;
     }
 
-    public Task<List<Auction>> Get()
+    public async Task<List<object>> Get()
     {
         try
         {
-            return _auctionRepo.Get();
+            var iAuctionList = new List<IAuction>();
+            //returnList.AddRange((await _auctionRepo.Get()).Where(x => x is Auction).ToList<object>());
+            //returnList.AddRange((await _auctionRepoExternal.Get()).Where(x => x is AuctionExternalDto).ToList<object>());
+
+            if (await _featureManager.IsEnabledAsync("ExternalAuctions"))
+            {
+                iAuctionList.AddRange(await _auctionRepoExternal.Get());
+            }
+            if (await _featureManager.IsEnabledAsync("InternalAuctions"))
+            {
+                iAuctionList.AddRange(await _auctionRepo.Get());
+            }
+
+
+
+
+
+            var returnList = new List<object>();
+
+            returnList.AddRange(iAuctionList.OrderBy(x => x.StartDate).ToList<object>());
+            return returnList;
         }
         catch (Exception e)
         {
@@ -55,10 +80,10 @@ public class AuctionService : IAuctionService
         try
         {
             return await _auctionRepo.GetActiveAuctions();
-            
+
         }
-        
-        
+
+
         catch (Exception e)
         {
             throw new Exception(e.Message);
@@ -76,7 +101,7 @@ public class AuctionService : IAuctionService
             throw new Exception(e.Message);
         }
     }
-    
+
 
     public Task<Auction> Post(AuctionDTO auctionDTO)
     {
@@ -107,7 +132,7 @@ public class AuctionService : IAuctionService
             {
                 throw new Exception("Auction product id must be set");
             }
-            
+
             return _auctionRepo.Post(auction);
         }
         catch (Exception e)
@@ -130,8 +155,9 @@ public class AuctionService : IAuctionService
 
     public Task<List<AuctionProductDTO>> GetProductIds(List<string> auctionIds)
     {
-        
-        try {
+
+        try
+        {
             return _auctionRepo.GetProductIds(auctionIds);
         }
         catch (Exception e)
@@ -139,7 +165,7 @@ public class AuctionService : IAuctionService
             throw new Exception(e.Message);
         }
     }
-    
+
     public Task<int> GetMinPrice(string id)
     {
         try

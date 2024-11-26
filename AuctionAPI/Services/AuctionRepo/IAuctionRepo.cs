@@ -5,7 +5,7 @@ namespace AuctionAPI.Services;
 
 public interface IAuctionRepo
 {
-    public Task<List<Auction>> Get();
+    public Task<List<IAuction>> Get();
     public Task<Auction> Get(string id);
     public Task<List<Auction>> GetActiveAuctions();
     public Task<List<Auction>?> GetExpiredActiveAuctions();
