@@ -47,14 +47,11 @@ public class AuctionService : IAuctionService
             {
                 iAuctionList.AddRange(await _auctionRepo.Get());
             }
-
-
-
-
-
+            
             var returnList = new List<object>();
 
             returnList.AddRange(iAuctionList.OrderBy(x => x.StartDate).ToList<object>());
+            _logger.LogInformation("AuctionService Get called, number of auctions: " + returnList.Count);
             return returnList;
         }
         catch (Exception e)
