@@ -3,6 +3,7 @@ using AuctionAPI.Models;
 using MongoDB.Driver;
 using System.Net;
 using ZstdSharp;
+using System.Security.Cryptography;
 
 namespace AuctionAPI.Services;
 
@@ -27,6 +28,7 @@ public class AuctionRepoExternal : IAuctionRepo
         try
         {
             List<IAuction> returnAuctions = _collection.Where(x => x is IAuction).ToList<IAuction>();
+            await Task.Delay(RandomNumberGenerator.GetInt32(500, 2000));
             if (returnAuctions.Count == 0)
             {
                 throw new Exception("No auctions found");

@@ -5,6 +5,8 @@ using sidecar_lib;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.FeatureManagement;
 using VaultSharp;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Metrics;
 
 
 var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
@@ -44,6 +46,24 @@ try
     builder.Logging.ClearProviders();
     builder.Host.UseNLog();
 
+    // Add OpenTelemetry services
+builder.Services.AddOpenTelemetry()
+    .WithMetrics(builder =>
+    {
+        builder.AddPrometheusExporter();
+        
+        //builder.AddMeter(Instrumentation.MeterName);
+
+        builder.AddMeter("Microsoft.AspNetCore.Hosting","Microsoft.AspNetCore.Server.Kestrel");
+        
+        builder.AddView("http.server.request.duration",
+            new ExplicitBucketHistogramConfiguration
+            {
+                Boundaries = new double[] { 0, 0.005, 0.01, 0.025, 0.05,
+                       0.075, 0.1, 0.25, 0.5, 0.75, 1, 2.5, 5, 7.5, 10 }
+            });       
+
+    });
     
 
     
@@ -73,8 +93,11 @@ try
 
     app.UseAuthorization();
     
+    app.MapPrometheusScrapingEndpoint();
 
     app.MapControllers();
+
+    app.MapGet("/telemetry", () => "OpenTelemetry! ticks:" + DateTime.Now.Ticks.ToString()[^5..]);
 
     app.Run();
 }
