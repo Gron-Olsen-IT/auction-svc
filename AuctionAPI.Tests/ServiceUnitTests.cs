@@ -10,7 +10,11 @@ namespace AuctionAPI.Tests;
 //Test class for AuctionService
 public class ServiceUnitTests
 {
+<<<<<<< HEAD
     /*
+=======
+/*
+>>>>>>> b4d07391807a9e35393f6adcee91b31a673d531d
     Mock<IAuctionRepo> _mockAuctionRepo;
     private IAuctionService _auctionService;
     private IInfraRepo _infraRepo;
@@ -24,12 +28,20 @@ public class ServiceUnitTests
         new(new(DateTime.Now.AddDays(-1), DateTime.Now.AddDays(1), 400, 500, "TestProductId4", "TestEmployeeId4", 4)),
         new(new(DateTime.Now.AddDays(-1), DateTime.Now.AddDays(1), 0, 500, "TestProductId5", "TestEmployeeId5", 5))
     };
+<<<<<<< HEAD
 
     */
     [SetUp]
     public void Setup()
     {
         /*
+=======
+*/
+
+    [SetUp]
+    public void Setup()
+    {/*
+>>>>>>> b4d07391807a9e35393f6adcee91b31a673d531d
         _mockAuctionRepo = new Mock<IAuctionRepo>();
         _mockAuctionRepo.Setup(repo => repo.Get()).ReturnsAsync(auctions);
 
@@ -40,6 +52,7 @@ public class ServiceUnitTests
         _mockAuctionRepo.Setup(repo => repo.Get(testAuctionId)).ReturnsAsync(auctions[0]);
 
         _auctionService = new AuctionService(_infraRepo, _mockAuctionRepo.Object, _mockLogger.Object);
+<<<<<<< HEAD
         */
     }
 
@@ -59,4 +72,20 @@ public class ServiceUnitTests
         Assert.That(await _auctionService.Get("TestAuctionId1"), Is.EqualTo(auctions[0]));
         */
     }
+=======
+    */}
+
+    [Test]
+    public async Task GetArgumentlessPass()
+    {/*
+        var testAuctions = await _auctionService.Get();
+        Assert.That(testAuctions, Is.EqualTo(auctions));
+    */}
+
+    [Test]
+    public async Task GetByIdPass()
+    {/*
+        Assert.That(await _auctionService.Get("TestAuctionId1"), Is.EqualTo(auctions[0]));
+    */}
+>>>>>>> b4d07391807a9e35393f6adcee91b31a673d531d
 }  
