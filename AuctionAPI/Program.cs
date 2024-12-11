@@ -97,7 +97,7 @@ builder.Services.AddOpenTelemetry()
 
     app.MapControllers();
 
-    app.MapGet("/telemetry", () => "OpenTelemetry! ticks:" + DateTime.Now.Ticks.ToString()[^5..]);
+    app.MapGet("auctions/telemetry", () => "OpenTelemetry! ticks:" + DateTime.Now.Ticks.ToString()[^5..]);
 
     app.Run();
 }
